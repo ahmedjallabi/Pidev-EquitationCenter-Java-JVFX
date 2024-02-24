@@ -1,0 +1,89 @@
+package Controllers;
+
+import Entities.Horse;
+import Service.HorseService;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+
+import java.awt.*;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
+
+public class AddHorseControllers {
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField breed;
+
+    @FXML
+    private DatePicker DatePension;
+
+    private HorseService horseService = new HorseService();
+
+    @FXML
+    public void addHorse(ActionEvent actionEvent) {
+        // Retrieve data from UI components
+        String name = this.name.getText();
+        String breed = this.breed.getText();
+        LocalDate pensionLocalDate; // Using LocalDate for DatePicker
+        Date pensionDate = java.sql.Date.valueOf(DatePension.getValue()); // Convert DatePicker value to Date
+
+
+        Horse horse = new Horse();
+        horse.setName(name);
+        horse.setBreed(breed);
+        horse.setDatePension(pensionDate);
+        horse.setAvailable(true);
+        try {
+            horseService.add(horse);
+            showSuccessMessage("Horse added successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showErrorAlert("Error occurred while adding horse.");
+        }
+    }
+
+    @FXML
+    private ImageView btnReturn;
+
+    public void returnTo(MouseEvent mouseEvent) {
+        RouterController router = new RouterController();
+        router.navigate("/fxml/HorseCrud.fxml");
+        System.out.println("Button Clicked");
+    }
+
+    private void showSuccessMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Message");
+        alert.setContentText(message);
+        ButtonType okayButton = new ButtonType("OK");
+        alert.getButtonTypes().setAll(okayButton);
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == okayButton) {
+                RouterController router = new RouterController();
+                router.navigate("/fxml/HorsesCRUD.fxml");
+                System.out.println("Button Clicked");
+            }
+        });
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error occurred");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
+}
