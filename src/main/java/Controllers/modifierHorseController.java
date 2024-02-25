@@ -57,6 +57,7 @@ public class modifierHorseController implements Initializable,InitializableWithI
     private void loadData() throws SQLException {
 
         Horse horse = horseService.findById(horseId);
+        System.out.println(horse);
         if (horse != null) {
             name.setText(horse.getName());
             breed.setText(horse.getBreed());
@@ -69,7 +70,7 @@ public class modifierHorseController implements Initializable,InitializableWithI
     }
 
     @FXML
-    void modifierUtilisateur(ActionEvent event) {
+    void modifierHorse(ActionEvent event) {
         try {
             String name = this.name.getText();
             String breed = this.breed.getText();
@@ -114,7 +115,7 @@ public class modifierHorseController implements Initializable,InitializableWithI
 
     @Override
     public void init(Integer activityId) throws SQLException {
-        this.horseId = horseId;
+        this.horseId = activityId;
         loadData();
     }
 }

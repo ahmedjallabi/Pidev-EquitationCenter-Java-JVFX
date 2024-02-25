@@ -21,7 +21,7 @@
                         <Font name="System Bold" size="30.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnSignup" layoutX="348.0" layoutY="425.0" mnemonicParsing="false" onAction="#modifierUtilisateur" prefHeight="40.0" prefWidth="117.0" style="-fx-background-color: #4b3e3e; -fx-background-radius: 8;" text="Modifier" textFill="WHITE">
+                <Button fx:id="btnSignup" layoutX="348.0" layoutY="425.0" mnemonicParsing="false" onAction="#modifierHorse" prefHeight="40.0" prefWidth="117.0" style="-fx-background-color: #4b3e3e; -fx-background-radius: 8;" text="Modifier" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
