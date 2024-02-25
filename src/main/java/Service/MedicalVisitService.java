@@ -16,7 +16,7 @@ public class MedicalVisitService implements IService<MedicalVisit> {
 
     @Override
     public void add(MedicalVisit medicalVisit) throws SQLException {
-        String query = "INSERT INTO medical_visit (idHorse, idVet, Description, VisitDate) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO medicalvisit (idHorse, idVet, Description, VisitDate) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, medicalVisit.getIdHorse());
             stmt.setInt(2, medicalVisit.getIdVet());
@@ -28,7 +28,7 @@ public class MedicalVisitService implements IService<MedicalVisit> {
 
     @Override
     public void update(MedicalVisit medicalVisit) throws SQLException {
-        String query = "UPDATE medical_visit SET idHorse = ?, idVet = ?, Description = ?, VisitDate = ? WHERE id = ?";
+        String query = "UPDATE medicalvisit SET idHorse = ?, idVet = ?, Description = ?, VisitDate = ? WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, medicalVisit.getIdHorse());
             stmt.setInt(2, medicalVisit.getIdVet());
@@ -41,7 +41,7 @@ public class MedicalVisitService implements IService<MedicalVisit> {
 
     @Override
     public void delete(MedicalVisit medicalVisit) throws SQLException {
-        String query = "DELETE FROM medical_visit WHERE id = ?";
+        String query = "DELETE FROM medicalvisit WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, medicalVisit.getId());
             stmt.executeUpdate();
@@ -50,7 +50,7 @@ public class MedicalVisitService implements IService<MedicalVisit> {
 
     @Override
     public MedicalVisit findById(int id) throws SQLException {
-        String query = "SELECT * FROM medical_visit WHERE id = ?";
+        String query = "SELECT * FROM medicalvisit WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {

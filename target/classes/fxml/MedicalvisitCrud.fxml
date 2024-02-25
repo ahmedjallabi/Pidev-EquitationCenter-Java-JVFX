@@ -54,7 +54,7 @@
 
                     <children>
                         <Pane prefHeight="170.0" prefWidth="74.0" />
-                        <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@./guiadmin.css" text="Naviguer" textFill="#767676">
+                        <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="66.0" prefWidth="74.0" styleClass="button3" stylesheets="@./guiadmin.css" onAction="#gohome" text="Naviguer" textFill="#767676">
                             <graphic>
                                 <ImageView fitHeight="25.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -90,12 +90,12 @@
                                             <PropertyValueFactory property="idVet" />
                                         </cellValueFactory>
                                     </TableColumn>
-                                    <TableColumn fx:id="DescriptionColumn" text="Description">
+                                    <TableColumn fx:id="descriptionColumn" text="Description">
                                         <cellValueFactory>
                                             <PropertyValueFactory property="description" />
                                         </cellValueFactory>
                                     </TableColumn>
-                                    <TableColumn fx:id="VisitDateColumn" prefWidth="90.20001220703125" text="VisitDate">
+                                    <TableColumn fx:id="visitDateColumn" prefWidth="90.20001220703125" text="VisitDate">
                                         <cellValueFactory>
                                             <PropertyValueFactory property="visitDate" />
                                         </cellValueFactory>

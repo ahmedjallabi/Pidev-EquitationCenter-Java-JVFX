@@ -23,7 +23,7 @@
                         <Image url="@../assets/ic_usr.png" />
                     </image>
                 </ImageView>
-                <Label fx:id="adminNameLabel" layoutX="174.0" layoutY="17.0" text="Véterinaire" textFill="WHITE">
+                <Label fx:id="adminNameLabel" layoutX="145.0" layoutY="14.0" text="Véterinaire" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
@@ -57,12 +57,12 @@
                 </Button>
             </children>
         </VBox>
-        <ImageView fitHeight="86.0" fitWidth="154.0" layoutX="74.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="94.0" fitWidth="112.0" layoutX="74.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../assets/logo.png" />
             </image>
         </ImageView>
-        <AnchorPane layoutX="75.0" layoutY="93.0" prefHeight="523.0" prefWidth="876.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@guiadmin.css">
+        <AnchorPane layoutX="74.0" layoutY="96.0" prefHeight="523.0" prefWidth="876.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@guiadmin.css">
             <children>
                 <Pane layoutX="148.0" layoutY="191.0" onMouseClicked="#goToUsers" prefHeight="172.0" prefWidth="252.0" style="-fx-background-color: #e6f7bc; -fx-background-radius: 7;">
                     <children>
@@ -71,7 +71,7 @@
                                 <Font name="System Bold" size="22.0" />
                             </font>
                         </Label>
-                        <Label layoutX="29.0" layoutY="108.0" onMouseClicked="#goToUsers" prefHeight="36.0" prefWidth="217.0" text="Gérer les ">
+                        <Label layoutX="29.0" layoutY="108.0" onMouseClicked="#goToUsers" prefHeight="36.0" prefWidth="217.0" text="Gérer les cheveaux ">
                             <font>
                                 <Font name="System Bold" size="16.0" />
                             </font>
@@ -81,24 +81,29 @@
                                 <Image url="@../assets/userIcon.png" />
                             </image>
                         </ImageView>
+                  <ImageView fitHeight="94.0" fitWidth="112.0" layoutX="157.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/logo.png" />
+                     </image>
+                  </ImageView>
                     </children>
                     <effect>
                         <DropShadow />
                     </effect>
                 </Pane>
-                <Label layoutX="305.0" layoutY="6.0" text="Interface Vet">
+                <Label layoutX="343.0" layoutY="65.0" text="Bienvenue chez ">
                     <font>
                         <Font name="System Bold" size="25.0" />
                     </font>
                 </Label>
                 <Pane layoutX="521.0" layoutY="191.0" prefHeight="172.0" prefWidth="252.0" style="-fx-background-color: #e6f7bc; -fx-background-radius: 7;">
                     <children>
-                        <Label layoutX="27.0" layoutY="79.0" onMouseClicked="#goToActivities" prefHeight="36.0" prefWidth="217.0" text="Activitées">
+                        <Label layoutX="27.0" layoutY="79.0" onMouseClicked="#goToActivities" prefHeight="36.0" prefWidth="217.0" text="Visite">
                             <font>
                                 <Font name="System Bold" size="22.0" />
                             </font>
                         </Label>
-                        <Label layoutX="29.0" layoutY="108.0" onMouseClicked="#goToActivities" prefHeight="36.0" prefWidth="217.0" text="Gérer les activitées">
+                        <Label layoutX="29.0" layoutY="108.0" onMouseClicked="#goToActivities" prefHeight="36.0" prefWidth="217.0" text="Gérer les visites">
                             <font>
                                 <Font name="System Bold" size="16.0" />
                             </font>
@@ -108,11 +113,21 @@
                                 <Image url="@../assets/activities.png" />
                             </image>
                         </ImageView>
+                  <ImageView fitHeight="94.0" fitWidth="112.0" layoutX="166.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/logo.png" />
+                     </image>
+                  </ImageView>
                     </children>
                     <effect>
                         <DropShadow />
                     </effect>
                 </Pane>
+            <Label layoutX="326.0" layoutY="101.0" text="L'espace véterinaire ">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
     </children>

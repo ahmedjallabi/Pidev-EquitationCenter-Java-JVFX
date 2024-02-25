@@ -25,7 +25,7 @@ public class AddMedicalVisitController {
     @FXML
     private DatePicker visitDatePicker;
 
-    private MedicalVisitService medicalVisitService;
+    private MedicalVisitService medicalVisitService=new MedicalVisitService();
 
     @FXML
     private void initialize() {

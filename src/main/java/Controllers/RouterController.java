@@ -48,12 +48,12 @@ public class RouterController {
 
     public static void navigate(String fxmlPath, Integer activityId) {
         try {
+            System.out.println("################ID ="+activityId);
             FXMLLoader loader = new FXMLLoader(RouterController.class.getResource(fxmlPath));
             AnchorPane root = loader.load();
 
             // Access the controller
-            modifierHorseController controller = loader.getController();
-
+            InitializableWithId controller = loader.getController();
             // If activityId is not null, initialize the controller with the activity ID
             if (activityId != null) {
                 controller.init(activityId);
@@ -65,7 +65,6 @@ public class RouterController {
             fadeOut.setToValue(0.0);
             fadeOut.setOnFinished(event -> {
                 primaryStage.setScene(new Scene(root));
-                // Fade in animation
                 FadeTransition fadeIn = new FadeTransition(TRANSITION_DURATION, root);
                 fadeIn.setFromValue(0.0);
                 fadeIn.setToValue(1.0);
@@ -80,3 +79,4 @@ public class RouterController {
         }
     }
 }
+

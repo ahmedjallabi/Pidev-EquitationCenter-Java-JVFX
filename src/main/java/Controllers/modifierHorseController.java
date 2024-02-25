@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class modifierHorseController implements Initializable {
+public class modifierHorseController implements Initializable,InitializableWithId{
 
     private int horseId;
 
@@ -56,15 +56,15 @@ public class modifierHorseController implements Initializable {
 
     private void loadData() throws SQLException {
 
-            Horse horse = horseService.findById(horseId);
-            if (horse != null) {
-                name.setText(horse.getName());
-                breed.setText(horse.getBreed());
-                datePension.setValue(LocalDate.parse(horse.getDatePension().toString()));
-                IsAvailable.setSelected(horse.getIsAvailable());
-            } else {
-                System.out.println("Cheval non trouvé.");
-            }
+        Horse horse = horseService.findById(horseId);
+        if (horse != null) {
+            name.setText(horse.getName());
+            breed.setText(horse.getBreed());
+            datePension.setValue(LocalDate.parse(horse.getDatePension().toString()));
+            IsAvailable.setSelected(horse.getIsAvailable());
+        } else {
+            System.out.println("Cheval non trouvé.");
+        }
 
     }
 
@@ -110,5 +110,11 @@ public class modifierHorseController implements Initializable {
         RouterController router;
         router = new RouterController();
         router.navigate("/fxml/HorseCrud.fxml");
+    }
+
+    @Override
+    public void init(Integer activityId) throws SQLException {
+        this.horseId = horseId;
+        loadData();
     }
 }

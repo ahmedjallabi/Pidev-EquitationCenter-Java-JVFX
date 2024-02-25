@@ -153,7 +153,7 @@ public class HorseCRUDcontroller {
                                 // Set the ID in the controller
                                 if (horse != null) {
                                     System.out.println("SETTING ID");
-                                    RouterController.navigate("/fxml/modifierHorse.fxml", horse.getId());
+                                    RouterController.navigate("/fxml/ModifierHorse.fxml", horse.getId());
 
                                     // Close the current window if needed
                                 } else {

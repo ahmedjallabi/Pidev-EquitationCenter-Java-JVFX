@@ -1,7 +1,9 @@
 package Controllers;
 
+import Entities.Horse;
 import Entities.MedicalVisit;
 import Service.MedicalVisitService;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +17,13 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.scene.control.TableCell;
+import javafx.util.Callback;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+
 
 public class MedicalvisitController implements Initializable {
 
@@ -49,12 +58,119 @@ public class MedicalvisitController implements Initializable {
     }
 
     private void initializeColumns() {
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idHorseColumn.setCellValueFactory(new PropertyValueFactory<>("idHorse"));
-        idVetColumn.setCellValueFactory(new PropertyValueFactory<>("idVet"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        visitDateColumn.setCellValueFactory(new PropertyValueFactory<>("visitDate"));
+        initializeTableColumns();
     }
+
+
+    private void initializeTableColumns() {
+        tableView.getColumns().clear();
+
+        TableColumn<MedicalVisit, Integer> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        TableColumn<MedicalVisit, Integer> idHorseColumn = new TableColumn<>("ID Horse");
+        idHorseColumn.setCellValueFactory(new PropertyValueFactory<>("idHorse"));
+
+        TableColumn<MedicalVisit, Integer> idVetColumn = new TableColumn<>("ID Vet");
+        idVetColumn.setCellValueFactory(new PropertyValueFactory<>("idVet"));
+
+        TableColumn<MedicalVisit, String> descriptionColumn = new TableColumn<>("Description");
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        TableColumn<MedicalVisit, Date> visitDateColumn = new TableColumn<>("Visit Date");
+        visitDateColumn.setCellValueFactory(new PropertyValueFactory<>("visitDate"));
+
+        // Add column for modify and delete buttons
+        TableColumn<MedicalVisit, Void> actionColumn = new TableColumn<>("Action");
+        actionColumn.setCellFactory(getButtonCellFactory());
+
+        tableView.getColumns().addAll(idColumn, idHorseColumn, idVetColumn, descriptionColumn, visitDateColumn, actionColumn);
+    }
+
+
+
+    private Callback<TableColumn<MedicalVisit, Void>, TableCell<MedicalVisit, Void>> getButtonCellFactory() {
+        return new Callback<TableColumn<MedicalVisit, Void>, TableCell<MedicalVisit, Void>>() {
+            @Override
+            public TableCell<MedicalVisit, Void> call(final TableColumn<MedicalVisit, Void> param) {
+                final TableCell<MedicalVisit, Void> cell = new TableCell<MedicalVisit, Void>() {
+                    private final Button modifyButton = new Button();
+                    private final Button deleteButton = new Button();
+
+                    {
+                        Image modifyImage = new Image(getClass().getResourceAsStream("../assets/modify.png"));
+                        ImageView modifyIcon = new ImageView(modifyImage);
+                        modifyIcon.setFitWidth(20);
+                        modifyIcon.setFitHeight(20);
+                        modifyButton.setGraphic(modifyIcon);
+
+                        modifyButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 5px; -fx-padding: 5px 10px;");
+                        deleteButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 5px; -fx-padding: 5px 10px;");
+
+                        Image deleteImage = new Image(getClass().getResourceAsStream("../assets/delete.png"));
+                        ImageView deleteIcon = new ImageView(deleteImage);
+                        deleteIcon.setFitWidth(16);
+                        deleteIcon.setFitHeight(16);
+                        deleteButton.setGraphic(deleteIcon);
+
+                        modifyButton.setOnAction((ActionEvent event) -> {
+                            MedicalVisit medicalVisit = getTableView().getItems().get(getIndex());
+                            if (medicalVisit != null) {
+                                // You can navigate to the modifyMedicalVisit.fxml file and pass the medicalVisit ID if needed
+                                // Example:
+                                RouterController.navigate("/fxml/modifyMedicalVisit.fxml", medicalVisit.getId());
+                                System.out.println("Modify action for MedicalVisit with ID: " + medicalVisit.getId());
+                            } else {
+                                System.err.println("No MedicalVisit selected.");
+                            }
+                        });
+
+                        deleteButton.setOnAction((ActionEvent event) -> {
+                            MedicalVisit medicalVisit = getTableView().getItems().get(getIndex());
+                            if (medicalVisit != null) {
+                                // You can implement the delete action here
+                                // Example:
+                                try {
+                                    medicalVisitService.delete(medicalVisit);
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                System.out.println("Delete action for MedicalVisit with ID: " + medicalVisit.getId());
+                                // Don't forget to update the table view after deleting the medical visit
+                                tableView.getItems().remove(medicalVisit);
+                            } else {
+                                System.err.println("No MedicalVisit selected.");
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            HBox buttons = new HBox(5);
+                            buttons.getChildren().addAll(modifyButton, deleteButton); // Add buttons to HBox
+
+                            modifyButton.setFocusTraversable(false);
+                            deleteButton.setFocusTraversable(false);
+
+                            setGraphic(buttons);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+    }
+
+
+
+
+
+
 
     private void loadMedicalVisits() {
         try {
@@ -69,5 +185,15 @@ public class MedicalvisitController implements Initializable {
     {
         RouterController.navigate("/fxml/AddMedicalVisit.fxml");
     }
+    public void addVisit(Event actionEvent)
+    {
+
+    }
+
+    public void gohome(ActionEvent actionEvent) {
+        RouterController r= new RouterController();
+        r.navigate ("/fxml/VetDashboard.fxml");
+    }
+    public void returnTo(Event actionEvent){}
     // You can add more methods for handling user interactions or additional functionalities
 }
