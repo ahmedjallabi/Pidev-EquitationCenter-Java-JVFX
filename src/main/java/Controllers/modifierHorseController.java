@@ -42,22 +42,19 @@ public class modifierHorseController implements Initializable,InitializableWithI
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            loadData();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 
     public void init(int horseId) throws SQLException {
         this.horseId = horseId;
+        System.out.println("##############"+horseId);
         loadData();
     }
 
     private void loadData() throws SQLException {
 
         Horse horse = horseService.findById(horseId);
-        System.out.println(horse);
+        System.out.println("##############"+horse.getDatePension());
         if (horse != null) {
             name.setText(horse.getName());
             breed.setText(horse.getBreed());

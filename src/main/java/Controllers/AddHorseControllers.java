@@ -15,6 +15,9 @@ import java.awt.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddHorseControllers {
 
@@ -29,20 +32,38 @@ public class AddHorseControllers {
 
     private HorseService horseService = new HorseService();
 
-    @FXML
-    public void addHorse(ActionEvent actionEvent) {
-        // Retrieve data from UI components
-        String name = this.name.getText();
-        String breed = this.breed.getText();
-        LocalDate pensionLocalDate; // Using LocalDate for DatePicker
-        Date pensionDate = java.sql.Date.valueOf(DatePension.getValue()); // Convert DatePicker value to Date
 
+    @FXML
+
+    public void addHorse(ActionEvent actionEvent) {
+        String horseName = name.getText().trim();
+        String horseBreed = breed.getText().trim();
+        LocalDate pensionLocalDate = DatePension.getValue();
+
+        if (horseName.isEmpty() || horseBreed.isEmpty() || pensionLocalDate == null) {
+            showErrorAlert("Il faut compléter les données ");
+            return;
+        }
+
+        if (!horseName.matches("[a-zA-Z ]+")) {
+            showErrorAlert("le nom n'est pas valide ");
+            return;
+        }
+
+        LocalDate currentDate = LocalDate.now();
+        if (pensionLocalDate.isAfter(currentDate)) {
+            showErrorAlert("Pension date cannot be in the future.");
+            return;
+        }
+
+        Date pensionDate = java.sql.Date.valueOf(pensionLocalDate);
 
         Horse horse = new Horse();
-        horse.setName(name);
-        horse.setBreed(breed);
+        horse.setName(horseName);
+        horse.setBreed(horseBreed);
         horse.setDatePension(pensionDate);
         horse.setAvailable(true);
+
         try {
             horseService.add(horse);
             showSuccessMessage("Horse added successfully");

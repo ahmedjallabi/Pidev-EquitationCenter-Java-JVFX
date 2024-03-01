@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 
@@ -48,7 +50,24 @@ public class HorseCRUDcontroller {
             tableView.getItems().addAll(horses);
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle database errors
+
+        }
+    }
+    @FXML
+    private void sortHorsesByName() {
+        try {
+            // Récupérer la liste des chevaux depuis le service
+            List<Horse> sortedHorses = horseService.ReadAll()
+                    .stream()
+                    .sorted(Comparator.comparing(Horse::getName)) // Tri par le nom
+                    .collect(Collectors.toList());
+
+            // Effacer la table et ajouter les chevaux triés
+            tableView.getItems().clear();
+            tableView.getItems().addAll(sortedHorses);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showErrorAlert("Erreur lors du tri des chevaux par nom.");
         }
     }
 
@@ -70,7 +89,7 @@ public class HorseCRUDcontroller {
         TableColumn<Horse, Boolean> isAvailableColumn = new TableColumn<>("Disponibilité");
         isAvailableColumn.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
 
-        // Add column for modify and delete buttons
+
         TableColumn<Horse, Void> actionColumn = new TableColumn<>("Action");
         actionColumn.setCellFactory(getButtonCellFactory());
 
@@ -80,7 +99,7 @@ public class HorseCRUDcontroller {
 
     @FXML
     public void searchquery(javafx.scene.input.KeyEvent keyEvent) {
-        // Implement search functionality
+
     }
     private Callback<TableColumn<Horse, Void>, TableCell<Horse, Void>> getButtonCellFactory() {
         return new Callback<TableColumn<Horse, Void>, TableCell<Horse, Void>>() {
@@ -97,7 +116,7 @@ public class HorseCRUDcontroller {
                         modifyIcon.setFitHeight(20);
                         modifyButton.setGraphic(modifyIcon);
 
-                        // Optionally remove focus border:
+
                         modifyButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 5px; -fx-padding: 5px 10px;");
                         deleteButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 5px; -fx-padding: 5px 10px;");
 
@@ -107,15 +126,15 @@ public class HorseCRUDcontroller {
                         deleteIcon.setFitHeight(16);
                         deleteButton.setGraphic(deleteIcon);
 
-                        // Set button actions
+
                         modifyButton.setOnAction((ActionEvent event) -> {
                             Horse horse = getTableView().getItems().get(getIndex());
-                            // Handle modify action here
+
                         });
 
                         deleteButton.setOnAction((ActionEvent event) -> {
                             Horse horse = getTableView().getItems().get(getIndex());
-                            // Handle delete action here
+
                         });
                     }
 
@@ -126,7 +145,7 @@ public class HorseCRUDcontroller {
                             setGraphic(null);
                         } else {
                             HBox buttons = new HBox(5);
-                            buttons.getChildren().addAll(modifyButton, deleteButton); // Add buttons to HBox
+                            buttons.getChildren().addAll(modifyButton, deleteButton);
 
                             modifyButton.setFocusTraversable(false);
                             deleteButton.setFocusTraversable(false);
@@ -134,7 +153,7 @@ public class HorseCRUDcontroller {
                             modifyButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 5px; -fx-padding: 5px 10px;");
                             deleteButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 5px; -fx-padding: 5px 10px;");
 
-                            // Set button icons
+
                             Image modifyImage = new Image(getClass().getResourceAsStream("../assets/modify.png"));
                             ImageView modifyIcon = new ImageView(modifyImage);
                             modifyIcon.setFitWidth(20);
@@ -146,19 +165,18 @@ public class HorseCRUDcontroller {
                             deleteIcon.setFitHeight(20);
                             deleteButton.setGraphic(deleteIcon);
                             modifyButton.setOnAction((ActionEvent event) -> {
-                                // Load the modifyActivity.fxml file
-                                // Access the activity from the table view
+
                                 Horse horse = getTableView().getItems().get(getIndex());
                                 System.out.println("activity ID from controller:"+horse.getId());
-                                // Set the ID in the controller
+
                                 if (horse != null) {
                                     System.out.println("SETTING ID");
                                     RouterController.navigate("/fxml/ModifierHorse.fxml", horse.getId());
 
-                                    // Close the current window if needed
+
                                 } else {
                                     System.err.println("No activity selected.");
-                                    // Handle the case where no activity is selected
+
                                 }
 
                             });
@@ -210,4 +228,12 @@ public class HorseCRUDcontroller {
         RouterController r= new RouterController();
         r.navigate ("/fxml/VetDashboard.fxml");
     }
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error occurred");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }

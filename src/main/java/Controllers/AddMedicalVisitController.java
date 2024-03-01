@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -68,44 +69,70 @@ public class AddMedicalVisitController {
     }
     @FXML
     void addVisit(Event actionEvent) {
-        int horseId = horseComboBox.getValue().getId();
-        String description = descriptionTextField.getText();
-        Date visitDate = java.sql.Date.valueOf(visitDatePicker.getValue());
+        Horse selectedHorse = horseComboBox.getValue();
+        String description = descriptionTextField.getText().trim();
+        LocalDate visitDate = visitDatePicker.getValue();
 
-        if (horseId == 0 || description.isEmpty() || visitDate == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("alert");
-            alert.setHeaderText(null);
-            alert.setContentText("stp remplir les informations");
-            alert.showAndWait();
+        if (selectedHorse == null) {
+            showErrorAlert("Please select a horse.");
+            return;
+        }
+
+        if (description.isEmpty()) {
+            showErrorAlert("Please enter a description.");
+            return;
+        }
+
+        if (visitDate == null) {
+            showErrorAlert("Please select a visit date.");
             return;
         }
 
         try {
-            // Assuming you have methods to get the horse ID and vet ID
             int vetId = getLoggedInVetId();
-
-            MedicalVisit medicalVisit = new MedicalVisit(horseId, vetId, description, visitDate);
+            MedicalVisit medicalVisit = new MedicalVisit(selectedHorse.getId(), vetId, description, java.sql.Date.valueOf(visitDate));
             medicalVisitService.add(medicalVisit);
 
-            // Show a success message
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText(null);
-            alert.setContentText("Medical visit added successfully");
-            alert.showAndWait();
-
+            showSuccessAlert("Medical visit added successfully.");
             returnTo(actionEvent);
         } catch (SQLException e) {
             e.printStackTrace();
-            // Show an error message if adding the medical visit fails
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("ajout échoué");
-            alert.showAndWait();
+            showErrorAlert("Failed to add medical visit.");
         }
     }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showSuccessAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private int getLoggedInVetId() {
         return VetService.user.getId();

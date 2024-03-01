@@ -96,7 +96,7 @@ public class GuiLoginController implements Initializable {
 
 
     public void goTo(String view){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(view+"VetLogin.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(view+"VetDashboard.fxml"));
         try {
             Parent root = loader.load();
             System.out.println(bord);

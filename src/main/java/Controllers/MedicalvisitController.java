@@ -80,7 +80,7 @@ public class MedicalvisitController implements Initializable {
         TableColumn<MedicalVisit, Date> visitDateColumn = new TableColumn<>("Visit Date");
         visitDateColumn.setCellValueFactory(new PropertyValueFactory<>("visitDate"));
 
-        // Add column for modify and delete buttons
+
         TableColumn<MedicalVisit, Void> actionColumn = new TableColumn<>("Action");
         actionColumn.setCellFactory(getButtonCellFactory());
 
@@ -116,8 +116,7 @@ public class MedicalvisitController implements Initializable {
                         modifyButton.setOnAction((ActionEvent event) -> {
                             MedicalVisit medicalVisit = getTableView().getItems().get(getIndex());
                             if (medicalVisit != null) {
-                                // You can navigate to the modifyMedicalVisit.fxml file and pass the medicalVisit ID if needed
-                                // Example:
+
                                 RouterController.navigate("/fxml/modifyMedicalVisit.fxml", medicalVisit.getId());
                                 System.out.println("Modify action for MedicalVisit with ID: " + medicalVisit.getId());
                             } else {
@@ -128,15 +127,14 @@ public class MedicalvisitController implements Initializable {
                         deleteButton.setOnAction((ActionEvent event) -> {
                             MedicalVisit medicalVisit = getTableView().getItems().get(getIndex());
                             if (medicalVisit != null) {
-                                // You can implement the delete action here
-                                // Example:
+
                                 try {
                                     medicalVisitService.delete(medicalVisit);
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
                                 System.out.println("Delete action for MedicalVisit with ID: " + medicalVisit.getId());
-                                // Don't forget to update the table view after deleting the medical visit
+
                                 tableView.getItems().remove(medicalVisit);
                             } else {
                                 System.err.println("No MedicalVisit selected.");
@@ -177,7 +175,7 @@ public class MedicalvisitController implements Initializable {
             List<MedicalVisit> medicalVisits = medicalVisitService.ReadAll();
             tableView.getItems().addAll(medicalVisits);
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle exception properly in your application
+            e.printStackTrace();
         }
     }
     @FXML
@@ -195,5 +193,5 @@ public class MedicalvisitController implements Initializable {
         r.navigate ("/fxml/VetDashboard.fxml");
     }
     public void returnTo(Event actionEvent){}
-    // You can add more methods for handling user interactions or additional functionalities
+
 }
