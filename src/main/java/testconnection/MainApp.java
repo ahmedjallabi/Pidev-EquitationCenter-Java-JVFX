@@ -16,7 +16,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         RouterController.setPrimaryStage(primaryStage); // Set the primary stage
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/HorseCrud.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MedicalvisitCrud.fxml"));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
       /*  FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/loadingscreen.fxml"));
